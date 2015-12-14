@@ -1,0 +1,233 @@
+@font-face {
+    font-family: "Ruda-Regular";
+    src: url("fonts/ruda/Ruda-Regular.ttf");
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Ruda-Black";
+    src: url("fonts/ruda/Ruda-Black.ttf");
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+body {
+    font-family: "Ruda-Regular";
+    background-color: #F3F3F3;
+}
+
+table {
+    width: 680px;
+    border: 1px solid #ddd;
+}
+
+#navbar {
+    max-width: 40%;
+    width: auto;
+    margin: 0 auto;
+}
+.spacer {
+    width: auto;
+    padding: 40px;
+    height: 10px;
+    border: 2px solid red;
+}
+.pad-top-20 {
+    padding-top: 20px;
+}
+.container {
+    border: 2px solid #ccc;
+    padding: 2px;
+    float: left;
+    min-height: 20px;
+    width: 100%;
+}
+
+.max-width {
+    width: 100%;
+}
+
+.shrink {
+    width: auto;
+}
+
+.flex {
+    display: flex;  
+}
+
+.inline {
+    display: inline-block;   
+}
+
+
+.block {
+     display: block; 
+}
+
+.chart-block {
+    min-height: 800px;
+    display: block; 
+}
+
+.normal-pad {
+    margin: 10px auto;
+    padding: 10px 20px 10px 20px;
+}
+
+
+.line-item {
+    background-color: #DCDCDC;
+}
+
+.yellow {
+    background-color: yellow;
+}
+.red {
+    background-color: #FF757E;
+}
+
+.border {
+    border: 1px solid #ccc;
+}
+
+.button {
+    border: 0 none;
+    border-radius: 36px;
+
+    padding: 8px 15px;
+    margin: 0 10px;
+
+    background: #27608F;
+    color: #fff;
+
+    cursor: pointer;
+    display: inline-block;
+
+    font-size: 14px;
+    color: #fff;
+    text-transform: none;
+
+    transition: all 100ms ease-in-out;
+}
+
+.button:hover {
+    opacity: .7;
+}
+
+td {
+    padding: 1px 4px 1px 6px;
+}
+
+.left {
+    text-align: left;
+}
+
+.right {
+    text-align: right;
+}
+
+.row-bold {
+    height: 30px;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 10px 0px 10px 0px;
+    background-color: transparent;
+}
+
+.alternate-bgcolor {
+    background-color: #eee;
+}
+.text-content {
+    text-align: left;
+    font-weight: 100;
+    font-size: 11px;
+    display: block;
+    padding: 2px;
+}
+
+.line-item {
+    line-height: 12px;
+    font-size: 10px;
+}
+
+#title-header {
+    width: auto;
+    min-width: 50%;
+    min-height: 30px;
+}
+
+.title-medium {
+    font-family: "Ruda-Black";
+    font-size: 28px;
+    color: #27608F;
+    font-weight: 300;
+}
+
+.title-large {
+    font-family: "Ruda-Black";
+    font-size: 36px;
+    color: #27608F;
+    font-weight: 600;
+}
+
+#canvas-holder {
+    display: inline-block;
+    float: left;
+    width: 450px;
+    max-height: 400px;
+    text-align: center;
+    border: 0px solid #ccc;
+    padding-bottom: 20px;
+}
+
+.pie-chart {
+     border: 0px solid #F32BB2;
+     padding: 10px;
+}
+
+#fork {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: 0;
+}
+
+#chart-legend {
+    display: inline-block;
+    width: auto;
+    min-width: 120px;
+    text-align: center;
+    margin: auto;
+}
+
+.legend {
+    width: auto;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 6px;
+    margin: 10px 0px 10px 10px;
+    background-color: #F6F6F6;
+}
+
+.legend .title {
+    font-size: 10px;
+    display: block;
+    line-height: 12px;
+    padding: 2px 2px 2px 0;
+    margin-left: 4px;
+    text-align: left;
+    vertical-align: baseline;
+}
+
+.legend .color-sample {
+    display: block;
+    border-radius: 3px;
+    float: left;
+    width: 1em;
+    height: 1em;
+    border: 1px solid black; /* Comment out if you don't want to show the fillColor */
+    margin-right: 10px;
+}
