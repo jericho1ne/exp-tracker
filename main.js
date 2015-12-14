@@ -243,7 +243,7 @@ function drawChart(chartId, data) {
  */
 function getChargeData(mode) {
     // LOAD FROM URL 
-    var url = 'http://localhost/expenses-v2/categorize-exp.php' 
+    var url = 'categorize-exp.php' 
         + '?mode=' + mode;
 
 
