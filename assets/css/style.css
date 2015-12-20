@@ -20,13 +20,12 @@ body {
 
 table {
     width: 680px;
-    border: 1px solid #ddd;
+    border: 2px solid #ddd;
 }
 
 #navbar {
-    max-width: 40%;
-    width: auto;
-    margin: 0 auto;
+    width: 65%;
+    margin: auto;
 }
 .spacer {
     width: auto;
@@ -38,13 +37,30 @@ table {
     padding-top: 20px;
 }
 .container {
-    border: 2px solid #ccc;
     padding: 2px;
     float: left;
     min-height: 20px;
     width: 100%;
 }
 
+/* overwrite datatables.min.css */
+.dataTables_wrapper {
+    max-width: 630px;
+}
+/* end datatables.min.css */
+
+.floatleft {
+    float: left;
+}
+
+.floatright {
+    float: right;
+}
+
+.left-half {
+    max-width: 620px;
+
+}
 .max-width {
     width: 100%;
 }
@@ -147,6 +163,10 @@ td {
     padding: 2px;
 }
 
+.chart-and-table {
+    margin-bottom: 50px;
+}
+
 .line-item {
     line-height: 12px;
     font-size: 10px;
@@ -154,21 +174,23 @@ td {
 
 #title-header {
     width: auto;
-    min-width: 50%;
+    max-width: 33%;
     min-height: 30px;
 }
 
 .title-medium {
     font-family: "Ruda-Black";
-    font-size: 28px;
-    color: #27608F;
-    font-weight: 300;
+    font-size: 22px;
+    color: #999;
+    /*  color: #27608F; */  /* dk blue */
+    font-weight: 600;
 }
 
 .title-large {
     font-family: "Ruda-Black";
     font-size: 36px;
-    color: #27608F;
+    /*  color: #ccc;  */
+    color: #27608F;  /* dk blue */
     font-weight: 600;
 }
 
@@ -208,7 +230,7 @@ td {
     border: 1px solid #ccc;
     border-radius: 6px;
     padding: 6px;
-    margin: 10px 0px 10px 10px;
+    margin: 40px 0px 10px 10px;
     background-color: #F6F6F6;
 }
 

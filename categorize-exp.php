@@ -12,7 +12,7 @@ $mode = set($_GET["mode"]);
 $years = array('2015', '2014');
 //$files = array('import/CHK_2014.CSV', 'import/MC_2014.CSV');
 
-$files = array('import/CHK_2015.CSV', 'import/MC_2015.CSV');
+$files = array('import/CHK_862_010115_121315.CSV', 'import/MC_359_010115_121315.CSV');
 
 //$files = array('import/truncated.CSV');
 // Read CSV file into array

@@ -1,10 +1,17 @@
+//
+// main.js
+// 
+
+//
+// Work to do after page load
+//
 window.onload = function() {
     // Load monthly data by default on page load
     getChargeData('monthly');
 
     // UI listeners
     $('.btn-mode').click(function() {
-        console.log($(this).attr('data-id'));
+        // console.log($(this).attr('data-id'));
         var mode = $(this).attr('data-id');
 
         var headerText = '';
@@ -15,18 +22,24 @@ window.onload = function() {
             headerText = "By Month";
         else if (mode == "all") 
             headerText = "All charge data, ever.";
+        else if (mode == "detail") {
+             // Hide DataTables
+             $('.dataTables_wrapper').toggle();
+             // Update display text
+             headerText = $('.dataTables_wrapper').is(':hidden') ? 'Chart Only' : 'Charge Details';
+        }   
 
         $("#title-header").html(headerText);
-
-        $(".dataTable").toggle();
 
        //getChargeData(mode);
     });
 };// End window.onload
 
+
 /**
- *
- *
+ *  @method displayYearlyChargeData()
+ *  @param array expenseCategories
+ *  @param array data charge data from ajax call
  */
 function displayYearlyChargeData(expenseCategories, data) {
     // Clear any pre-existing content
@@ -37,8 +50,6 @@ function displayYearlyChargeData(expenseCategories, data) {
 
     // YEARS loop
     for (var year in data) {
-
-         //i = 0; i < years.length; i++) {
         var chargeData = data[year];
 
         // Add year header
@@ -55,7 +66,6 @@ function displayYearlyChargeData(expenseCategories, data) {
                 "July", "August", "September", "October", "November", "December"
             ];
 
-
             // Charge data to be displayed in tabulated form
             var monthlyData = chargeData[month];
 
@@ -63,8 +73,17 @@ function displayYearlyChargeData(expenseCategories, data) {
             var subtotals = {};
 
             var $monthDiv = $('<div>')
-                .addClass('container block')
-                .html('<div class="title-medium">' + monthNames[month-1] + ' ' + year + '</div>');
+                .addClass('chart-and-table container');
+
+            // eg: January 2016
+            var $monthName = $('<div>')
+                .addClass('title-medium')
+                .css('opacity', 0.7)
+                .css('position', 'relative')
+                .css('float', 'right')
+                .css('margin-right', '14px')
+                .css('margin-top', '-248px')
+                .html(monthNames[month-1] + ' ' + year);
 
             // Initialize loop counters
             var rowCount = 0;
@@ -87,16 +106,11 @@ function displayYearlyChargeData(expenseCategories, data) {
                         + '<th class="right">amount</td></tr>' );
 
             // Datatables can also make use of a footer (not a must-have)
-            // var $tableFooter = $('<thead>')
-            //         .addClass('row-bold')
-            //         .html('<tr><th class="left">date</td>'
-            //             + '<th class="left">category</td>'
-            //             + '<th class="left">detail</td>'
-            //             + '<th class="right">amount</td></tr>' );
-
+            // create one if necessary, duplicating $tableHeader; then append()
+           
             $dataTable.append($tableHeader);
-            // $dataTable.append($tableFooter);
 
+            // Initialze once, outside the upcoming loop
             var row = '';
             // CHARGE data (finally)
             for (var charge in monthlyData) {
@@ -104,7 +118,7 @@ function displayYearlyChargeData(expenseCategories, data) {
                 //console.log(row.label + ' >> ' + expenseCategories[row.label].color);
 
                 // Append to category subtotals
-                if(typeof subtotals[row.label] === 'undefined') {
+                if (typeof subtotals[row.label] === 'undefined') {
                     subtotals[row.label] = parseFloat(row.value);
                 }
                 else {
@@ -116,6 +130,7 @@ function displayYearlyChargeData(expenseCategories, data) {
                     console.log("!!! undefined row label found !!! " );
                 }
 
+                // Date | Category | Detail | Amount
                 var $newDataDiv = $('<tr>')
                     .addClass('line-item' + (rowCount % 2 ? '' : ' alternate-bgcolor'))
                     .html('<td class="left">' 
@@ -125,8 +140,9 @@ function displayYearlyChargeData(expenseCategories, data) {
                         + '<td class="right">' + row.value.toFixed(2) + '</td>' 
                         + '</td></tr>' );
 
+                // Append individual row of charges
                 $dataTable.append($newDataDiv);
-    
+                // Add to monthly subtotal
                 totalAmount += parseFloat(row.value);
                 
                 rowCount ++;
@@ -145,11 +161,28 @@ function displayYearlyChargeData(expenseCategories, data) {
 
             // Append chart placeholder
             var $donutChartParent = $('<div>')
-                .addClass('container')
-                .html('<div id="canvas-holder" class="flex">' 
-                    +'<canvas id="' + chartID + '" class="pie-chart" height="200px"/>' 
-                    +'</div>'
-                    +'<div id="'+ chartID +'-legend" class="container inline-block">* LEGEND LOADING *</div>');
+                .addClass('container left-half');
+
+            var $chartCanvas = $('<div>')
+                .attr('id', 'canvas-holder')
+                .addClass('block') 
+                .html('<canvas id="' + chartID + '" class="pie-chart" height="180px"/>' );
+
+            var legendId = chartID + '-legend';
+
+            var $chartLegend = $('<div>')
+                .attr('id', legendId)
+                .addClass('container inline-block')
+                .html('* LEGEND LOADING *');
+
+                // +'<div id="'+ chartID +'-legend" class="legend container inline-block">* LEGEND LOADING *</div>');
+
+            // Append Chart + Legend
+            $donutChartParent.append($chartLegend);
+            $donutChartParent.append($chartCanvas);
+
+            // Overlay month name
+            $donutChartParent.append($monthName);
 
             // Append sexy donut chart
             $monthDiv.append($donutChartParent);
@@ -157,12 +190,9 @@ function displayYearlyChargeData(expenseCategories, data) {
             // Add the current monthly charges to the Month header
             $monthDiv.append($dataTable);
 
-            $monthDiv.append('<div class="container spacer"></div>');
-
+            
             // Append entire month (chart + tabulated data)
-            $yearDiv.append($monthDiv);
-
-            $dataTableParent.append($yearDiv);
+            $dataTableParent.append($monthDiv);
             
             //
             //  Append that whole mess to the DOM
@@ -189,7 +219,11 @@ function displayYearlyChargeData(expenseCategories, data) {
                 });
             }
 
+            //
+            //  Draw actual chartdetai
+            //
             drawChart(chartID, subtotalsMod);
+
         }
        // $dataTableParent.append($yearDiv);
     }// Years loop
@@ -202,15 +236,15 @@ function displayYearlyChargeData(expenseCategories, data) {
 
 
 /**
- *
+ * 
  *
  */
 function drawChart(chartId, data) {
-
+    // Set up options object
     var options = {
         responsive : true,
         animation: false,
-        segmentShowStroke : true,
+        segmentShowStroke : false,
         segmentStrokeWidth : 1,
         percentageInnerCutout: 22, // This is 0 for Pie charts
         legend :    // TODO:  is this necessary??
@@ -226,16 +260,22 @@ function drawChart(chartId, data) {
     };
 
     var ctx = document.getElementById(chartId).getContext("2d");
-    window.donutChart = new Chart(ctx).Doughnut(data, options);
+    new Chart(ctx).Doughnut(data, options);
 
+    var legendTemplate =  '<ul>'
+                +'<% for (var i=0; i<datasets.length; i++) { %>'
+                    +'<li>'
+                        +'<span style=\"background-color:<%=datasets[i].color%>\">'
+                        +'<% if (datasets[i].label) { %><%= datasets[i].label %><% } %>'
+                        +'</span>'
+                    +'</li>'
+                +'<% } %>'
+            +'</ul>';
     // Legend.js
     //      pass in: (parent id, data, chart, legendTemplate)
-    legend(document.getElementById(chartId + '-legend'), data, '', "<%=label%>  $<%=value%>");
-
-    // Traditional Legend generation
-    // var doughnutLegend = donutChart.generateLegend();
-    // $('#chart-legend').append(doughnutLegend);
-}
+    legend(document.getElementById(chartId + '-legend'), data, chartId, "<%=label%>  $<%=value%>");
+    //legend(document.getElementById(chartId + '-legend'), data, '', legendTemplate);
+}// End drawChart
 
 /**
  *
@@ -246,21 +286,11 @@ function getChargeData(mode) {
     var url = 'categorize-exp.php' 
         + '?mode=' + mode;
 
-
     $.get( url, function( data ) {
         var jsonData = JSON.parse(data);
         // Use the category subtotals for the chart
         // Show charge details
         displayYearlyChargeData(jsonData.expenseCategories, jsonData.chargeData);
     });
-
-    /*
-        // LOAD FROM JSON FILE
-        var jsonFile = '../../expenses/export/expenses.json';
-        $.getJSON(jsonFile, function(data) {
-            console.log(">>>>");
-            console.log(data);
-        });// End getJSON   
-    */          
-
 }// End method getChargeData()
+
