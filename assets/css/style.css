@@ -43,6 +43,14 @@ table {
     width: 100%;
 }
 
+.hidden {
+    display: none;
+}
+
+.shown {
+    display: block;
+}
+
 /* overwrite datatables.min.css */
 .dataTables_wrapper {
     max-width: 630px;
