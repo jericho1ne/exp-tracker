@@ -6,12 +6,10 @@ $mode = set($_GET["mode"]);
 /*
   0			1			2				 3		4
   Status	Date		Description		 Debit  Credit
-  Cleared	11/02/2015	DEBIT PURCHASE	 11.85  ---  
+  Cleared	11/02/2015	DEBIT PURCHASE	 11.85  ---
 */
 
 $years = array('2015', '2014');
-//$files = array('import/CHK_2014.CSV', 'import/MC_2014.CSV');
-
 $files = array('import/CHK_862_010115_121315.CSV', 'import/MC_359_010115_121315.CSV');
 
 //$files = array('import/truncated.CSV');
@@ -20,10 +18,10 @@ $parsedData = getParsedData($files, $ignoreList);
 
 // Categorize each line item, appending category
 $newData = categorizePurchases($expenseCategories, $searchTerms, $parsedData);
-	
+
 //
 // LIMIT DATA BASED ON AJAX REQUEST MODE ---------------------------------------
-	
+
 
 if ($mode && $mode=="monthly") {
 	// echo "M";
@@ -51,13 +49,13 @@ foreach ($expenseCategories as $key => $val) {
 foreach($newData as $key => $dataRow) {
 	pr($key);
 
-	
+
 	foreach($expTotals as $labelIndex => $labelAndValue) {
 		if ($dataRow['label'] == $labelAndValue['label']) {
 			$expTotals[$labelIndex]['value'] += floatval($dataRow['value']);
 		}
 	}
-	
+
 }
 pr($expTotals);
 
@@ -77,14 +75,14 @@ function date_compare($a, $b) {
     $t1 = strtotime($a['date']);
     $t2 = strtotime($b['date']);
     return $t2 - $t1;
-}    
+}
 //usort($newData, 'date_compare');
 
 //
 // PREPARE JSON   ---------------------------------------------------------------
 //
 
-echo json_encode( 
+echo json_encode(
 	array(
 		//"subtotals" => $expTotals,
 		"expenseCategories" => $expenseCategories,
