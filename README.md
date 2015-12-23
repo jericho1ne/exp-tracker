@@ -13,7 +13,7 @@ Expense Tracker
 
 ## Precision colors for machines and people
 
-![Charts and Datatables](//assets/images/charts-and-datatables.png?raw=true "Charts and Datatables")
-![Charts Only](//assets/images/charts.png?raw=true "Charts Only")
+![Charts and Datatables](/assets/images/charts-and-datatables.png?raw=true "Charts and Datatables")
+![Charts Only](/assets/images/charts.png?raw=true "Charts Only")
 
 [![solarized dualmode](https://github.com/altercation/solarized/raw/master/img/solarized-yinyang.png)](#features)
