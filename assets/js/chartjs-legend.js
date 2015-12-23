@@ -14,7 +14,7 @@ function legend(parent, data, chart, legendTemplate) {
     }
 
     var show = chart ? showTooltip : noop;
-    
+
     datas.forEach(function(d, i) {
 
         //span to div: legend appears to all element (color-sample and text-node)
@@ -27,7 +27,9 @@ function legend(parent, data, chart, legendTemplate) {
         colorSample.style.backgroundColor = d.hasOwnProperty('strokeColor') ? d.strokeColor : d.color;
         colorSample.style.borderColor = d.hasOwnProperty('fillColor') ? d.fillColor : d.color;
         title.appendChild(colorSample);
-        
+
+        // Create column divs
+        // TODO class="floatleft"
         // Search / replace placeholders
         legendNode=legendTemplate.replace("<%=value%>", d.value);
         legendNode=legendNode.replace("<%=label%>", d.label);
@@ -42,7 +44,6 @@ function legend(parent, data, chart, legendTemplate) {
 
 // add events to legend that show tool tips on chart
 function showTooltip(chart, elem, indexChartSegment) {
-    
     var helpers = Chart.helpers;
 
     var segments = chart.segments;

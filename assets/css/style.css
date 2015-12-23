@@ -12,7 +12,6 @@
     font-style: normal;
 }
 
-
 body {
     font-family: "Ruda-Regular";
     background-color: #F3F3F3;
@@ -44,18 +43,62 @@ table {
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 .shown {
-    display: block;
+    display: block !important;
 }
 
-/* overwrite datatables.min.css */
+/*
+		override datatables.min.css
+												*/
+
+input[type=search] {
+	height: 30px;
+	width: 160px;
+	padding: 4px 2px 4px 2px;
+	margin-bottom: 10px;
+	border: 0px solid #999;
+	border-radius: 20px;
+	background: #eee;
+	cursor: pointer;
+	outline: 0;
+	font-family: "Ruda-Regular";
+	color: #999;
+	font-size: 14px;
+	    -webkit-box-shadow: 0 3px 2px #ccc, 0 -1px #fff inset;
+    -moz-box-shadow: 0 3px 2px #ccc, 0 -1px #fff inset;
+    box-shadow: 0 3px 2px #ccc, 0 -1px #fff inset;
+}
+
+select {
+    padding: 6px;
+    min-width: 20px;
+    margin: 0 6px 0 6px;
+    -webkit-border-radius:4px;
+    -moz-border-radius:4px;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 3px 2px #ccc, 0 -1px #fff inset;
+    -moz-box-shadow: 0 3px 2px #ccc, 0 -1px #fff inset;
+    box-shadow: 0 3px 2px #ccc, 0 -1px #fff inset;
+    background: #eee;
+    border: 1px solid #eee;
+    outline:none;
+    display: inline-block;
+    font-family: "Ruda-Regular";
+    color: #999;
+	font-size: 14px;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    appearance:none;
+    cursor:pointer;
+}
+
 .dataTables_wrapper {
     max-width: 630px;
 }
-/* end datatables.min.css */
+/*			 end datatables.min.css override		*/
 
 .floatleft {
     float: left;
@@ -73,26 +116,34 @@ table {
     width: 100%;
 }
 
+.centered-text {
+	display: table-cell;
+	text-align: center;
+	vertical-align: middle;
+	margin-left: 200px;
+	margin-top: 200px;
+}
+
 .shrink {
     width: auto;
 }
 
 .flex {
-    display: flex;  
+    display: flex;
 }
 
 .inline {
-    display: inline-block;   
+    display: inline-block;
 }
 
 
 .block {
-     display: block; 
+     display: block;
 }
 
 .chart-block {
     min-height: 800px;
-    display: block; 
+    display: block;
 }
 
 .normal-pad {

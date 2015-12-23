@@ -82,7 +82,7 @@ function displayYearlyChargeData(expenseCategories, data) {
 				.css('position', 'relative')
 				.css('float', 'right')
 				.css('margin-right', '14px')
-				.css('margin-top', '-248px')
+				//.css('margin-top', '-248px')
 				.html(monthNames[month-1] + ' ' + year);
 
 			// Initialize loop counters
@@ -287,9 +287,9 @@ function getChargeData(mode) {
 	var $spinner = $('<i>')
 		.attr('id', 'load-spinner-1')
 		.css('display', 'none')
-		.css('color', '#ccc')
-		.css('opacity', '0.8')
-		.addClass('fa fa-cog fa-spin fa-4x');
+		.css('color', '#000')
+		.css('opacity', '0.9')
+		.addClass('fa fa-cog fa-spin fa-5x centered-text');
 
 	$('#charge-data').append($spinner);
 
