@@ -277,6 +277,18 @@ function drawChart(chartId, data) {
 	//legend(document.getElementById(chartId + '-legend'), data, '', legendTemplate);
 }// End drawChart
 
+
+/**
+ *
+ *
+ */
+function verticalShake(selector) {
+	// TODO: pass in selector id
+	// EG: "data-table-2015-4"
+	$("input[type='search'][aria-controls=' + selector + ']").effect( "shake", { direction: "left", times: 3, distance: 4}, 550 );
+}
+
+
 /**
  *
  *

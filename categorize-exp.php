@@ -10,8 +10,9 @@ $mode = set($_GET["mode"]);
 */
 
 $years = array('2015', '2014');
-$files = array('import/CHK_862_010115_121315.CSV', 'import/MC_359_010115_121315.CSV');
+// $files = array('import/CHK_862_010115_121315.CSV', 'import/MC_359_010115_121315.CSV');
 
+$files = array('import/MC_359_010115_121615.CSV');
 //$files = array('import/truncated.CSV');
 // Read CSV file into array
 $parsedData = getParsedData($files, $ignoreList);
