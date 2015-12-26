@@ -4,93 +4,86 @@ require_once("common.php");
 $mode = set($_GET["mode"]);
 
 /*
-  0			1			2				 3		4
-  Status	Date		Description		 Debit  Credit
-  Cleared	11/02/2015	DEBIT PURCHASE	 11.85  ---
+	Expected CSV format -- Citibank-style (with array indices)
+
+	0		1			2				 3		4
+  	Status	Date		Description		 Debit  Credit
+ 	Cleared	11/02/2015	DEBIT PURCHASE	 11.85  ---
+
 */
 
 $years = array('2015', '2014');
 // $files = array('import/CHK_862_010115_121315.CSV', 'import/MC_359_010115_121315.CSV');
 
-$files = array('import/MC_359_010115_121615.CSV');
-//$files = array('import/truncated.CSV');
-// Read CSV file into array
-$parsedData = getParsedData($files, $ignoreList);
+// Set the base directory where you'll be storing your CSV dumps
+$directory = 'import';
 
-// Categorize each line item, appending category
-$newData = categorizePurchases($expenseCategories, $searchTerms, $parsedData);
+// Grab files in reverse order (files first, directories last)
+$files = scandir($directory, 1);
 
-//
-// LIMIT DATA BASED ON AJAX REQUEST MODE ---------------------------------------
-
-
-if ($mode && $mode=="monthly") {
-	// echo "M";
-}
-else if ($mode && $mode=="yearly") {
-	// echo "Y";
-}
-else {
-	// show everything
-}
-
-
-//
-// EXPENSE CATEGORY TOTALS -----------------------------------------------------
-// 		Duplicate and extend top level categories constants array
-//			in case we want to tally the subtotals in PHP
-/*$expTotals = [];
-foreach ($expenseCategories as $key => $val) {
-	$expTotals[$key]["label"] = $key;
-	$expTotals[$key]["value"] = 0;
-	$expTotals[$key]["color"] = $val['color'];
-	$expTotals[$key]["highlight"] = "#BEBEBE";	// "#747474";
-}
-// Aggregate by category in PHP - requires block above
-foreach($newData as $key => $dataRow) {
-	pr($key);
-
-
-	foreach($expTotals as $labelIndex => $labelAndValue) {
-		if ($dataRow['label'] == $labelAndValue['label']) {
-			$expTotals[$labelIndex]['value'] += floatval($dataRow['value']);
-		}
+$csvList = [];
+// Check file extensions, add to array if CSVs found
+foreach($files as $file) {
+	$ext = pathinfo($file, PATHINFO_EXTENSION);
+	if (strtolower($ext) === "csv") {
+		$csvList[] = $directory . '/' .  $file;
 	}
-
 }
-pr($expTotals);
 
-// Sort subtotals asceding
-uasort($expTotals, function($a, $b) {
-    return $a['value'] - $b['value'];
-});
+// In case one wants to manually test with a differently-formatted CSV
+// $csvList = array('import/truncated.CSV');
 
-// Reverse order (descending)
-$expTotals = array_reverse($expTotals);
-*/
+// Read CSV file into array
+$parsedData = getParsedData($csvList, $ignoreList);
 
-//
-// DETAILED CHARGE DATA --------------------------------------------------------
-// 		Sort individual charge data descending
-function date_compare($a, $b) {
-    $t1 = strtotime($a['date']);
-    $t2 = strtotime($b['date']);
-    return $t2 - $t1;
+// If all good
+if ($parsedData['success']) {
+	unset ($parsedData['success']);
+
+	$message = $parsedData['message'];
+	unset ($parsedData['message']);
+
+	// Categorize each line item, appending category
+	$newData = categorizePurchases($expenseCategories, $searchTerms, $parsedData);
+
+	echo json_encode(
+		array(
+			"success" => true,
+			"message" => $message,
+			"expenseCategories" => $expenseCategories,
+			"chargeData" => $newData['charges'],
+			"years" => $years
+		)
+	);
 }
-//usort($newData, 'date_compare');
+// Problems, Houston...
+else {
+	echo json_encode(
+		array(
+			"success" => false,
+			"message" => $parsedData['message']
+		)
+	);
+}
+
 
 //
 // PREPARE JSON   ---------------------------------------------------------------
 //
 
-echo json_encode(
-	array(
-		//"subtotals" => $expTotals,
-		"expenseCategories" => $expenseCategories,
-		"chargeData" => $newData,
-		"years" => $years,
-	)
-);
+
+//
+// LIMIT DATA BASED ON AJAX REQUEST MODE ---------------------------------------
+// if ($mode && $mode=="monthly") {
+// 	// echo "M";
+// }
+// else if ($mode && $mode=="yearly") {
+// 	// echo "Y";
+// }
+// else {
+// 	// show everything
+// }
+
 
 
 /*
@@ -120,6 +113,5 @@ foreach ($parsedData as $fields) {
 }
 fclose($fp);
 */
-
 
 ?>

@@ -13,7 +13,7 @@ function legend(parent, data, chart, legendTemplate) {
         parent.removeChild(parent.lastChild);
     }
 
-    var show = chart ? showTooltip : noop;
+   	var show = chart ? showTooltip : noop;
 
     datas.forEach(function(d, i) {
 
@@ -47,8 +47,8 @@ function showTooltip(chart, elem, indexChartSegment) {
     var helpers = Chart.helpers;
 
     var segments = chart.segments;
-    // Why are these busted??
-    console.log(segments);
+    // TODO:  figure out why are these busted
+	// console.log(segments);
 
     // Only chart with segments
     if (typeof segments != 'undefined') {

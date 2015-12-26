@@ -12,6 +12,11 @@
     font-style: normal;
 }
 
+.ui-dialog.error-dialog {
+    font-family: "Ruda-Regular";
+    font-size: 14px;
+}
+
 body {
     font-family: "Ruda-Regular";
     background-color: #F3F3F3;

@@ -11,7 +11,6 @@ window.onload = function() {
 
 	// UI listeners
 	$('.btn-mode').click(function() {
-		// console.log($(this).attr('data-id'));
 		var mode = $(this).attr('data-id');
 
 		var headerText = '';
@@ -115,7 +114,6 @@ function displayYearlyChargeData(expenseCategories, data) {
 			// CHARGE data (finally)
 			for (var charge in monthlyData) {
 				row = monthlyData[charge];
-				//console.log(row.label + ' >> ' + expenseCategories[row.label].color);
 
 				// Append to category subtotals
 				if (typeof subtotals[row.label] === 'undefined') {
@@ -303,7 +301,7 @@ function getChargeData(mode) {
 		.css('opacity', '0.9')
 		.addClass('fa fa-cog fa-spin fa-5x centered-text');
 
-	$('#charge-data').append($spinner);
+	$('#user-msgs').append($spinner);
 
 	$spinner.fadeIn( "slow", function() {
 	// Animation complete.
@@ -316,12 +314,41 @@ function getChargeData(mode) {
 	$.get( url, function( data ) {
 		var jsonData = JSON.parse(data);
 		// Use the category subtotals for the chart
-		// Show charge details
-		displayYearlyChargeData(jsonData.expenseCategories, jsonData.chargeData);
 
+		if (!jsonData.success) {
+			// Prepare error message
+			var msg  = (jsonData.message ? jsonData.message : "Could not load charge data");
+
+			$errorMsg = $('<div>')
+				.attr('id', 'error-modal')
+				.attr('title', 'Cannot load charge data')
+				.html('<b>Error</b>: ' + msg + '<br><br>Please check file permissions and make sure there is at least one CSV in the <b>import</b> directory');
+
+			// Initialize dialog box
+			$errorMsg.dialog({
+				autoOpen: false,
+				height: 200,
+				width: 500,
+				modal: true,
+				resizable: true,
+				dialogClass: 'no-close error-dialog'
+            });
+
+
+
+		}
 		//TODO: once above returns data...
 		$spinner.fadeOut( "slow", function() {
-				// Animation complete.
+			if (jsonData.success) {
+				// Start populating charge data
+				displayYearlyChargeData(jsonData.expenseCategories, jsonData.chargeData);
+			}
+			else {
+				// Display error msg modal
+				setTimeout(function(){
+	  				$errorMsg.dialog("open");
+				}, 1000);
+			}
 		});
 
 	});
