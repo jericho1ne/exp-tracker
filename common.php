@@ -57,85 +57,94 @@ function getParsedData($files, $ignore) {
 	    throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
 	});
 
-    foreach($files as $fileName) {
-        $row = 0;
+    // If CSV files found in directory
+    if ($files) {
+	    foreach ($files as $fileName) {
+	        $row = 0;
 
-        try {
-        	fopen($fileName, "r");
-        	$parsedData['success'] = true;
-        	$parsedData['message'] = 'Data loaded successfully';
+	        try {
+	        	fopen($fileName, "r");
+	        	$parsedData['success'] = true;
+	        	$parsedData['message'] = 'Data loaded successfully';
 
-        	if (file_exists($fileName) && (($handle = fopen($fileName, "r")) !== FALSE)) {
 
-	            // Loop through CSV data in given file
-	            while (($data = fgetcsv($handle, 10000, ",")) !== FALSE) {
-	                $numCol = count($data);
-	                $row++;
+	        	if (file_exists($fileName) && (($handle = fopen($fileName, "r")) !== FALSE)) {
 
-	                // by default, we'd like to save this row of data
-	                $insert = 1;
+		            // Loop through CSV data in given file
+		            while (($data = fgetcsv($handle, 10000, ",")) !== FALSE) {
+		                $numCol = count($data);
+		                $row++;
 
-	                // skip header row
-	                if ($row == 1) {
-	                    continue;
-	                }
+		                // by default, we'd like to save this row of data
+		                $insert = 1;
 
-	                // Get rid of trailing account digits
-	                $data[2] = str_replace('9721', '', set($data[2]));
+		                // skip header row
+		                if ($row == 1) {
+		                    continue;
+		                }
 
-	                // Convert date to YYYY-mm-dd
-	                $dateFmt = date("Y-m-d", strtotime($data[1]));
-	                $yyyy = date("Y", strtotime($data[1]));
-	                $m = date("n", strtotime($data[1]));
+		                // Get rid of trailing account digits
+		                $data[2] = str_replace('9721', '', set($data[2]));
 
-	                if ($yyyy == '1969') {
-	                    pr(" ********* ");
-	                    pr($data);
-	                }
-	                // Strip year, insert into unique years array if necessary
-	                // $years
+		                // Convert date to YYYY-mm-dd
+		                $dateFmt = date("Y-m-d", strtotime($data[1]));
+		                $yyyy = date("Y", strtotime($data[1]));
+		                $m = date("n", strtotime($data[1]));
 
-	                // Remove commas, fill up to two decimals
-	                $valueFmt = str_replace(",", "", trim(set($data[3])));
-	                $valueFmt = floatval($valueFmt);
+		                if ($yyyy == '1969') {
+		                    pr(" ********* ");
+		                    pr($data);
+		                }
+		                // Strip year, insert into unique years array if necessary
+		                // $years
 
-	                // Crop description at X chars, go lowercase
-	                $description = substr(trim($data[2]), 0, 64);
+		                // Remove commas, fill up to two decimals
+		                $valueFmt = str_replace(",", "", trim(set($data[3])));
+		                $valueFmt = floatval($valueFmt);
 
-	                // DO NOT SAVE - if description matches anything in ignored list
-	                foreach($ignore as $ignoredTerm) {
-	                    //  pr($ignoredTerm . ' -- '. $fields['description']);
-	                    if (stripos($description, $ignoredTerm) > -1) {
-	                        $insert = 0;
-	                    }
-	                }
+		                // Crop description at X chars, go lowercase
+		                $description = substr(trim($data[2]), 0, 64);
 
-	                // DO NOT SAVE - if the debit amount is blank
-	                if ($valueFmt=="") {
-	                   $insert = 0;
-	                }
+		                // DO NOT SAVE - if description matches anything in ignored list
+		                foreach($ignore as $ignoredTerm) {
+		                    //  pr($ignoredTerm . ' -- '. $fields['description']);
+		                    if (stripos($description, $ignoredTerm) > -1) {
+		                        $insert = 0;
+		                    }
+		                }
 
-	                if ($insert == 1) {
-	                    // Save to our formatted array, inserting as 3rd column
-	                    $parsedData['charges'][$yyyy][$m][] = array(
-	                        "date"          => $dateFmt,                        // Y-m-d date
-	                        "originaldate"  => trim($data[1]),                  // original date
-	                        "description"   => ucwords(strtolower($description)),
-	                        "value"         => $valueFmt
-	                    );
-	                }
+		                // DO NOT SAVE - if the debit amount is blank
+		                if ($valueFmt=="") {
+		                   $insert = 0;
+		                }
 
-	            }// End while
-	            fclose($handle);
-	        }// End if -- file read
+		                if ($insert == 1) {
+		                    // Save to our formatted array, inserting as 3rd column
+		                    $parsedData['charges'][$yyyy][$m][] = array(
+		                        "date"          => $dateFmt,                        // Y-m-d date
+		                        "originaldate"  => trim($data[1]),                  // original date
+		                        "description"   => ucwords(strtolower($description)),
+		                        "value"         => $valueFmt
+		                    );
+		                }
 
-        }// End try
-        catch (ErrorException $e) {
-        	$parsedData['success'] = false;
-        	$parsedData['message'] = $e->getMessage();
-        }// End catch
+		            }// End while
+		            fclose($handle);
+		        }// End if -- file read
 
-    }
+	        }// End try
+	        catch (ErrorException $e) {
+	        	$parsedData['success'] = false;
+	        	$parsedData['message'] = $e->getMessage();
+	        }// End catch
+
+
+	    }
+	}
+	else {
+		$parsedData['success'] = false;
+	    $parsedData['message'] = "No CSV files found in directory";
+	}
 
     // Remove rows we do not care for based on ignore list
     //      Organize charge data into top-down arrays (Year, then Month)
