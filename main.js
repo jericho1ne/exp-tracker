@@ -9,7 +9,7 @@ window.onload = function() {
 	// Load monthly data by default on page load
 	getChargeData('monthly');
 
-	// UI listeners
+	// Static UI listeners
 	$('.btn-mode').click(function() {
 		var mode = $(this).attr('data-id');
 
@@ -218,7 +218,7 @@ function displayYearlyChargeData(expenseCategories, data) {
 			}
 
 			//
-			//  Draw actual chartdetai
+			//  Draw monthly pie/donut chart
 			//
 			drawChart(chartID, subtotalsMod);
 
@@ -226,9 +226,15 @@ function displayYearlyChargeData(expenseCategories, data) {
 	   // $dataTableParent.append($yearDiv);
 	}// Years loop
 
+	// Attach search input listener
+	$('input[type="search"]').keyup(function() {
+		var tableId = $(this).attr('aria-controls');
 
-
-	// Append tabulated data
+		if ($('#' + tableId + ' tr.line-item').length === 0) {
+			// Shake it good
+			verticalShake(tableId);
+		}
+	});// End search input listener
 
 }// End displayChargeData
 
@@ -277,19 +283,21 @@ function drawChart(chartId, data) {
 
 
 /**
- *
- *
+ *	verticalShake
+ *	@param selectorID string Selector of the search input element to manipulate
  */
-function verticalShake(selector) {
-	// TODO: pass in selector id
-	// EG: "data-table-2015-4"
-	$("input[type='search'][aria-controls=' + selector + ']").effect( "shake", { direction: "left", times: 3, distance: 4}, 550 );
-}
+function verticalShake(selectorID) {
+	// Search input selector is passed in as "data-table-2015-4"
+	$('input[type="search"][aria-controls="' + selectorID + '"]')
+		.effect( "shake", {
+			direction: "left", times: 3, distance: 2
+		}, 550);
+}// End function verticalShake
 
 
 /**
- *
- *
+ *	getChargeData
+ *	@param mode string Type of
  */
 function getChargeData(mode) {
 	// Fancy spinner
