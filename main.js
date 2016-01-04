@@ -232,7 +232,7 @@ function displayYearlyChargeData(expenseCategories, data) {
 
 		if ($('#' + tableId + ' tr.line-item').length === 0) {
 			// Shake it good
-			verticalShake(tableId);
+			attentionGetter(tableId);
 		}
 	});// End search input listener
 
@@ -283,16 +283,25 @@ function drawChart(chartId, data) {
 
 
 /**
- *	verticalShake
+ *	attentionGetter
  *	@param selectorID string Selector of the search input element to manipulate
  */
-function verticalShake(selectorID) {
+function attentionGetter(selectorID) {
 	// Search input selector is passed in as "data-table-2015-4"
 	$('input[type="search"][aria-controls="' + selectorID + '"]')
+		.stop()		// stop any existing animation
+		.css("background-color", "#FF7AED")		// Fade to bright color
+    	.animate({
+    		backgroundColor: "#FFFFFF"			// Fade back to transparent
+    	}, 400);
+
+		/*
+		// Old Horizontal Shake effect
 		.effect( "shake", {
-			direction: "left", times: 3, distance: 2
-		}, 550);
-}// End function verticalShake
+			direction: "left", times: 2, distance: 1
+		}, 250);
+		*/
+}// End function attentionGetter
 
 
 /**
@@ -330,7 +339,7 @@ function getChargeData(mode) {
 			$errorMsg = $('<div>')
 				.attr('id', 'error-modal')
 				.attr('title', 'Cannot load charge data')
-				.html('<b>Error</b>: ' + msg + '<br><br>Please check file permissions and make sure there is at least one CSV in the <b>import</b> directory');
+				.html('<b>Error</b> - ' + msg + '<br>');
 
 			// Initialize dialog box
 			$errorMsg.dialog({

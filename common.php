@@ -57,19 +57,25 @@ function getParsedData($files, $ignore) {
 	    throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
 	});
 
+    $parsedData['success'] = true;
+   	$parsedData['message'] = 'Data loaded successfully';
+
     // If CSV files found in directory
     if ($files) {
 	    foreach ($files as $fileName) {
+
+	    	if (!$parsedData['success'] ) {
+	    		break;
+	    	}
+
 	        $row = 0;
 
 	        try {
 	        	fopen($fileName, "r");
-	        	$parsedData['success'] = true;
-	        	$parsedData['message'] = 'Data loaded successfully';
+
 
 
 	        	if (file_exists($fileName) && (($handle = fopen($fileName, "r")) !== FALSE)) {
-
 		            // Loop through CSV data in given file
 		            while (($data = fgetcsv($handle, 10000, ",")) !== FALSE) {
 		                $numCol = count($data);
@@ -91,12 +97,15 @@ function getParsedData($files, $ignore) {
 		                $yyyy = date("Y", strtotime($data[1]));
 		                $m = date("n", strtotime($data[1]));
 
+		                // Funky formatting, most likely due to extra quotes
 		                if ($yyyy == '1969') {
-		                    pr(" ********* ");
-		                    pr($data);
-		                }
-		                // Strip year, insert into unique years array if necessary
-		                // $years
+		                	// echo " *************** ";
+		                	$parsedData['success'] = false;
+	        				$parsedData['message'] = "Data truncated due to bad characters in file <br>";
+	        				$parsedData['message'] .= "<b>[ " . $fileName . " ]</b><br> near characters ";
+	        				$parsedData['message'] .= " <b>[ " . $data[0] . " ]</b> ";
+	        				break;
+		                }// End funky formatting case
 
 		                // Remove commas, fill up to two decimals
 		                $valueFmt = str_replace(",", "", trim(set($data[3])));
@@ -127,7 +136,6 @@ function getParsedData($files, $ignore) {
 		                        "value"         => $valueFmt
 		                    );
 		                }
-
 		            }// End while
 		            fclose($handle);
 		        }// End if -- file read
@@ -143,34 +151,10 @@ function getParsedData($files, $ignore) {
 	}
 	else {
 		$parsedData['success'] = false;
-	    $parsedData['message'] = "No CSV files found in directory";
+	    $parsedData['message'] = "No CSV files found in directory.<br><br>
+	    	Please check file permissions and make sure there is at least one CSV in the <b>import/</b> directory";
 	}
 
-    // Remove rows we do not care for based on ignore list
-    //      Organize charge data into top-down arrays (Year, then Month)
-    /*
-        [2014]  - [1]
-                - [2]
-                - ...
-                - [12]
-        [2015]  - [1]
-                - ...
-    */
-                 /*
-    foreach ($parsedData as $yyyy => $m) {
-     // IF description matches one of the terms the "ignore" list,
-        foreach($ignore as $ignoredTerm) {
-            //  pr($ignoredTerm . ' -- '. $fields['description']);
-            if (stripos($fields['description'], $ignoredTerm) > -1) {
-                unset($parsedData[$key]);
-            }
-        }
-
-        // Or if the debit amount is blank
-        if ( $fields['value']=="") {
-            unset($parsedData[$key]);
-        }
-    }*/
     return $parsedData;
 }
 
