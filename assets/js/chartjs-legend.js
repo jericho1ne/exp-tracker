@@ -17,7 +17,7 @@ function legend(parent, data, chart, legendTemplate) {
 
     datas.forEach(function(d, i) {
 
-        //span to div: legend appears to all element (color-sample and text-node)
+        //span to div: legend appears to all element (color-sample and text div)
         var title = document.createElement('div');
         title.className = 'title';
         parent.appendChild(title);
@@ -28,15 +28,17 @@ function legend(parent, data, chart, legendTemplate) {
         colorSample.style.borderColor = d.hasOwnProperty('fillColor') ? d.fillColor : d.color;
         title.appendChild(colorSample);
 
-        // Create column divs
+        // Create column divs containing legend text + value
         // TODO class="floatleft"
         // Search / replace placeholders
-        legendNode=legendTemplate.replace("<%=value%>", d.value);
-        legendNode=legendNode.replace("<%=label%>", d.label);
+        legendNode = legendTemplate.replace("<%=value%>", '<div class="floatright">$' + d.value + '</div>');
+        legendNode = legendNode.replace("<%=label%>", '<div class="floatleft">' + d.label + '</div>');
 
-        var text = document.createTextNode(legendNode);
-        text.className = 'text-node';
-        title.appendChild(text);
+        var textLabel = document.createElement('div');
+        textLabel.innerHTML = legendNode;
+        textLabel.className = 'text-node';
+
+        title.appendChild(textLabel);
 
         show(chart, title, i);
     });

@@ -248,8 +248,9 @@ function drawChart(chartId, data) {
 	var options = {
 		responsive : true,
 		animation: false,
-		segmentShowStroke : false,
-		segmentStrokeWidth : 1,
+		segmentShowStroke : true,
+		scaleShowLabels: true,
+		//segmentStrokeWidth : 0,
 		percentageInnerCutout: 22, // This is 0 for Pie charts
 		legend :    // TODO:  is this necessary??
 			'<ul>'
@@ -275,9 +276,12 @@ function drawChart(chartId, data) {
 					+'</li>'
 				+'<% } %>'
 			+'</ul>';
+
+	var lT2 =  "<%=label%>  <%=value%>";
+
 	// Legend.js
 	//      pass in: (parent id, data, chart, legendTemplate)
-	legend(document.getElementById(chartId + '-legend'), data, chartId, "<%=label%>  $<%=value%>");
+	legend(document.getElementById(chartId + '-legend'), data, chartId, lT2);
 	//legend(document.getElementById(chartId + '-legend'), data, '', legendTemplate);
 }// End drawChart
 
@@ -292,7 +296,7 @@ function attentionGetter(selectorID) {
 		.stop()		// stop any existing animation
 		.css("background-color", "#FF7AED")		// Fade to bright color
     	.animate({
-    		backgroundColor: "#FFFFFF"			// Fade back to transparent
+    		backgroundColor: 'transparent'		// Fade back to transparent
     	}, 400);
 
 		/*

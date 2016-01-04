@@ -2,9 +2,9 @@
 
 $ignoreList = array(
 	"",
-	"ONLINE PAYMENT", 
-	"PAYMENT THANK YOU", 
-	"ONLINE PAYMENT, THANK YOU", 
+	"ONLINE PAYMENT",
+	"PAYMENT THANK YOU",
+	"ONLINE PAYMENT, THANK YOU",
 	"ONLINE - TRANSFER",
 );
 
@@ -43,7 +43,7 @@ $expenseCategories = array(
 	TYPE_TRAN => array(
 		"color" => "#6699CC"
 	),
-	
+
 	//TYPE_ENTC, TYPE_HOME, TYPE_COFF, TYPE_ELEC,
 	TYPE_ENTC => array(
 		"color" => "#CC6666"
@@ -57,7 +57,7 @@ $expenseCategories = array(
 	TYPE_ELEC => array(
 		"color" => "#CC6699"
 	),
-	
+
 	//TYPE_FLHT, TYPE_HEAL, TYPE_UTIL, TYPE_BIZT,
 	TYPE_FLHT => array(
 		"color" => "#2E5C8A"
@@ -93,8 +93,9 @@ $searchTerms = array(
 		'abbr' => TYPE_GROC,
 		'name' => "Groceries",
 		'terms' => array(
-			"WHOLEFDS", 
-			"BRISTOL", 
+			"Fresh Thyme",
+			"WHOLEFDS",
+			"BRISTOL",
 			"CO-OPPORTUNITY",
 			"SUPERMARKE",
 			"market",
@@ -121,11 +122,11 @@ $searchTerms = array(
 		'abbr' => TYPE_REST,
 		'name' => "Restaurants",
 		'terms' => array(
-			"RESTAURANT", 
-			"Bistro", 
-			"Burger", 
+			"RESTAURANT",
+			"Bistro",
+			"Burger",
 			"DELI AND TAPA",
-			"SWEETGREEN", 
+			"SWEETGREEN",
 			"WINE BAR",
 			"800 DEGREES",
 			"BRICK AND MORTAR",
@@ -186,15 +187,22 @@ $searchTerms = array(
 			"PUBLIC HOUSE",
 			"REST&WINE",
 			"SQ *DAIRY",
-			"PICHET - B1"
+			"PICHET - B1",
+			"Reno's East",
+			"Shin Sa Young Dong",
+			"Basin 141",
+			"California Chicken",
+			"Seoul House Of Tofu",
+			"Arado Japanese Rest",
+			"Earthbar Santa Monica",
 		)
 	),
-	
+
 	TYPE_SPRT => array(
 		'name' => "Sports and Outdoors",
 		'abbr' => TYPE_SPRT,
 		'terms' => array(
-			"CYNERGY", 
+			"CYNERGY",
 			"REI",
 			"SPORTING GOODS",
 			"Patagonia",
@@ -214,6 +222,9 @@ $searchTerms = array(
 			"FOOT LOCKER",
 			"MAUI TROPIX",
 			"Tweewielers",
+			"Paypal *",
+			"Nemo Equipment",
+			"Rrs Santa Monica",
 		)
 	),
 
@@ -223,7 +234,7 @@ $searchTerms = array(
 		'terms' => array(
 			"UBER",
 			"LA TRANSIT",
-			"LYFT", 
+			"LYFT",
 			"LA METRO",
 			"RENT A CAR",
 			"RENT-A-CAR",
@@ -238,9 +249,10 @@ $searchTerms = array(
 			"SM-DWNTWN STRUCT",
 			"RAILWAY",
 			"LUL TICKET",
+			"Michigan Flyer",
 		)
 	),
-	
+
 	TYPE_ENTC => array(
 		'abbr' => TYPE_ENTC,
 		'name' => "Entertaiment & Cultural",
@@ -261,28 +273,31 @@ $searchTerms = array(
 			"MUSEUM",
 			"THE LANDMARK",
 			"AXS TIX",
+			"Ice at Santa Monica",
 		)
 	),
-	
+
 	TYPE_HOME => array(
 		'name' => "Home & Self Improvement",
 		'abbr' => TYPE_HOME,
 		'terms' => array(
-			"ORCHARD SUPPLY", 
-			"LOWES", 
+			"ORCHARD SUPPLY",
+			"LOWES",
 			"HOME DEPOT",
 			"Target",
 			"CENTRAL REST PRODUCTS",
+			"Room & Board",
+			"Jcpenney.com",
 		)
 	),
-	
+
 	TYPE_COFF => array(
 		'name' => "Coffee & Donuts",
 		'abbr' => TYPE_COFF,
 		'terms' => array(
-			"THE REFINERY", 
-			"ESPRESSO", 
-			"COFFEE", 
+			"THE REFINERY",
+			"ESPRESSO",
+			"COFFEE",
 			"STARBUCKS",
 			"KREME",
 			"COFFEE BEAN",
@@ -296,17 +311,18 @@ $searchTerms = array(
 			"PP*BASANTI",
 		)
 	),
-	
+
 	TYPE_ELEC => array(
 		'name' => "Cameras & Electronics",
 		'abbr' => TYPE_ELEC,
 		'terms' => array(
-			"Adorama", 
-			"Amazon", 
+			"Adorama",
+			"Amazon",
 			"CAMERA",
 			"AMZ*Woot",
 			"APPLE STORE",
 			"APPLEONLINE",
+			"Staples",
 		)
 	),
 
@@ -314,9 +330,9 @@ $searchTerms = array(
 		'name' => "Flights & Housing",
 		'abbr' => TYPE_FLHT,
 		'terms' => array(
-			"Hotel", 
+			"Hotel",
 			"HOSTEL",
-			"VIR AMER", 
+			"VIR AMER",
 			"Southwes",
 			"EASYJET",
 			"AirBnB",
@@ -333,6 +349,7 @@ $searchTerms = array(
 			"ALASKA AIR",
 			"HI SF",
 			"ALITALIA",
+			"Spirit Airlines",
 		)
 	),
 
@@ -340,26 +357,29 @@ $searchTerms = array(
 		'name' => "Health & Medical",
 		'abbr' => TYPE_HEAL,
 		'terms' => array(
-			"Health", 
+			"Health",
 			"HEALING",
-			"Massage", 
-			"THERAPY", 
-			"MASSGE PLACE", 
-			"RICHARD HABR DDS"
+			"Massage",
+			"THERAPY",
+			"MASSGE PLACE",
+			"RICHARD HABR DDS",
+			"Rite Aid",
+			"Ucla Physicians",
 		)
 	),
-	
+
 	TYPE_UTIL => array(
 		'name' => "Utilities & Recurring",
 		'abbr' => TYPE_UTIL,
 		'terms' => array(
-			"T-MOBILE", 
-			"MNTLY SRVC CHGE", 
+			"T-MOBILE",
+			"MNTLY SRVC CHGE",
 			"TIME WARNER CABLE",
 			"TELEPH",
 			"T MOBILE",
 			"LADWP",
 			"EE LIMITED",
+			"Dom Wire Out"
 		)
 	),
 
@@ -376,6 +396,9 @@ $searchTerms = array(
 			"SKR*ENVATO.COM",
 			"ROPOT DEVELOPMENT",
 			"UCLA BRUINCARD",
+			"Axis Appraisals",
+			"Preferred Home Inspect",
+
 		)
 	),
 
@@ -403,7 +426,7 @@ $searchTerms = array(
 			"MEMBERSHIP FEE",
 		)
 	),
-	
+
 	TYPE_OTHR => array(
 		'name' => "Other Expenses",
 		'abbr' => TYPE_OTHR,
@@ -419,7 +442,8 @@ $searchTerms = array(
 			"Debit Purchase",
 			"Other Decrease",
 			"Debit Pin Purchase",
-		)		
+			"Fee-wire Trnfr",
+		)
 	),
 );
 

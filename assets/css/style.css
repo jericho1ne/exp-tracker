@@ -64,9 +64,9 @@ input[type=search] {
 	width: 160px;
 	padding: 4px 2px 4px 2px;
 	margin-bottom: 10px;
-	border: 0px solid #999;
+	border: 1px solid #999;
 	border-radius: 20px;
-	background: #eee;
+	background-color: transparent;
 	cursor: pointer;
 	outline: 0;
 	font-family: "Ruda-Regular";
@@ -101,7 +101,7 @@ select {
 }
 
 .dataTables_wrapper {
-    max-width: 630px;
+    max-width: 660px;
 }
 /*			 end datatables.min.css override		*/
 
@@ -114,7 +114,7 @@ select {
 }
 
 .left-half {
-    max-width: 620px;
+    max-width: 660px;
 
 }
 .max-width {
@@ -289,9 +289,11 @@ td {
 }
 
 .legend {
-    width: auto;
+    max-width: 300px;
+    min-width: 160px;
     display: inline-block;
-    border: 1px solid #ccc;
+   	float: right;
+    border: 1px solid #E2E2E2;
     border-radius: 6px;
     padding: 6px;
     margin: 40px 0px 10px 10px;
@@ -299,21 +301,25 @@ td {
 }
 
 .legend .title {
-    font-size: 10px;
-    display: block;
-    line-height: 12px;
+    /* font-size: 10px;*/
+    display: flex;
+    line-height: 15px;
     padding: 2px 2px 2px 0;
     margin-left: 4px;
     text-align: left;
     vertical-align: baseline;
 }
 
+.legend .text-node {
+	width: 100%;
+}
+
 .legend .color-sample {
     display: block;
     border-radius: 3px;
     float: left;
-    width: 1em;
-    height: 1em;
+    width: 20px;
+    height: 12px;
     border: 1px solid black; /* Comment out if you don't want to show the fillColor */
     margin-right: 10px;
 }
